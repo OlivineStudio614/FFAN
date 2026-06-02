@@ -10,8 +10,6 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1565C0)),
       visualDensity: VisualDensity.comfortable,
     );
-    return base.copyWith(
-      textTheme: base.textTheme.apply(fontSizeFactor: 1.1),
-    );
+    return base;
   }
 }
