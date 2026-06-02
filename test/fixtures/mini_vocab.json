@@ -1,0 +1,18 @@
+{
+  "id": "mini",
+  "name": "Mini",
+  "language": "en-US",
+  "rows": 1,
+  "cols": 2,
+  "rootFolderId": "root",
+  "folders": {
+    "root": [
+      {"type": "word", "row": 0, "col": 0, "label": "hi", "message": "hi", "symbol": "hi", "color": "0xFF81C784"},
+      {"type": "folder", "row": 0, "col": 1, "label": "More", "symbol": "more", "color": "0xFFFFCC80", "targetFolderId": "more"}
+    ],
+    "more": [
+      {"type": "word", "row": 0, "col": 0, "label": "bye", "message": "bye", "symbol": "bye", "color": "0xFF81C784"},
+      {"type": "empty", "row": 0, "col": 1}
+    ]
+  }
+}
