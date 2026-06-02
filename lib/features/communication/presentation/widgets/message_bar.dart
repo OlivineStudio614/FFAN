@@ -33,7 +33,7 @@ class MessageBar extends StatelessWidget {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: utterance.tokens.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 6),
+              separatorBuilder: (_, _) => const SizedBox(width: 6),
               itemBuilder: (context, i) {
                 final t = utterance.tokens[i];
                 return SizedBox(
