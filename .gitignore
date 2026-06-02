@@ -1,6 +1,9 @@
 # === FFAN: never commit research assets ===
 research/
 
+# git worktrees (isolated workspaces)
+.worktrees/
+
 # macOS
 .DS_Store
 
