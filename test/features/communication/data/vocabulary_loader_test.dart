@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ffan/features/communication/data/vocabulary_loader.dart';
-import 'package:ffan/features/communication/domain/cell.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
