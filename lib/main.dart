@@ -5,6 +5,7 @@ import 'app.dart';
 import 'features/communication/application/providers.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   final container = ProviderContainer();
   container.read(analyticsServiceProvider).logSessionStart();
   runApp(

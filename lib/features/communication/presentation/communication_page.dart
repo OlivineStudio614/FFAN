@@ -18,6 +18,15 @@ class CommunicationPage extends ConsumerWidget {
     final board = ref.watch(boardControllerProvider);
     final utterance = ref.watch(utteranceControllerProvider);
 
+    // Match the speech engine's voice to the vocabulary's language once it
+    // loads, so TTS speaks the vocabulary's locale rather than the device's.
+    ref.listen(vocabularyProvider, (previous, next) {
+      final vocab = next.value;
+      if (vocab != null) {
+        ref.read(ttsServiceProvider).setLanguage(vocab.language);
+      }
+    });
+
     return Scaffold(
       body: SafeArea(
         child: vocabAsync.when(
@@ -26,6 +35,18 @@ class CommunicationPage extends ConsumerWidget {
           data: (vocab) {
             final manifest = manifestAsync.value ?? const {};
             final cells = vocab.cellsFor(board.currentFolderId);
+            // Breadcrumb: show the folder's display label (e.g. "Food"), not
+            // its raw id ("food"). Folders are opened from the root board.
+            String title = vocab.name;
+            if (board.currentFolderId != vocab.rootFolderId) {
+              title = board.currentFolderId;
+              for (final c in vocab.cellsFor(vocab.rootFolderId)) {
+                if (c.isFolder && c.targetFolderId == board.currentFolderId) {
+                  title = c.label;
+                  break;
+                }
+              }
+            }
             return Column(
               children: [
                 MessageBar(
@@ -39,7 +60,7 @@ class CommunicationPage extends ConsumerWidget {
                   onClear: () =>
                       ref.read(utteranceControllerProvider.notifier).clear(),
                 ),
-                _NavBar(board: board, vocabName: vocab.name),
+                _NavBar(board: board, title: title),
                 Expanded(
                   child: SymbolGrid(
                     rows: vocab.rows,
@@ -67,10 +88,10 @@ class CommunicationPage extends ConsumerWidget {
 }
 
 class _NavBar extends ConsumerWidget {
-  const _NavBar({required this.board, required this.vocabName});
+  const _NavBar({required this.board, required this.title});
 
   final BoardState board;
-  final String vocabName;
+  final String title;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -93,8 +114,7 @@ class _NavBar extends ConsumerWidget {
                 : null,
           ),
           const SizedBox(width: 8),
-          Text(board.currentFolderId == 'root' ? vocabName : board.currentFolderId,
-              style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
         ],
       ),
     );

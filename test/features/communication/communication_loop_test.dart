@@ -9,8 +9,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 class _FakeTts implements TtsService {
   final List<String> spoken = [];
+  String? language;
   @override
-  Future<void> setLanguage(String tag) async {}
+  Future<void> setLanguage(String tag) async => language = tag;
   @override
   Future<void> speak(String text) async => spoken.add(text);
   @override
@@ -58,6 +59,9 @@ void main() {
       child: const FfanApp(),
     ));
     await tester.pumpAndSettle();
+
+    // TTS voice should be set to the vocabulary's locale once it loads.
+    expect(tts.language, 'en-US');
 
     await tester.tap(find.text('I').first);
     await tester.pump();

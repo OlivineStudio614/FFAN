@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../domain/utterance.dart';
@@ -23,8 +24,14 @@ class UtteranceController extends Notifier<Utterance> {
 
   Future<void> speak() async {
     if (state.isEmpty) return;
-    await _tts.speak(state.text);
-    _analytics.logMessageSpoken(state.tokens.length);
+    try {
+      await _tts.speak(state.text);
+      _analytics.logMessageSpoken(state.tokens.length);
+    } catch (error) {
+      // A TTS failure must never crash the app or leave an unhandled async
+      // error — speaking is the primary action, so degrade gracefully.
+      debugPrint('TTS speak failed: $error');
+    }
   }
 }
 
