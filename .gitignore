@@ -12,7 +12,7 @@ build/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-pubspec.lock
+# pubspec.lock IS committed: FFAN is an application package (reproducible builds).
 
 # IDE
 .idea/
